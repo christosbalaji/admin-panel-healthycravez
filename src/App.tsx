@@ -8,6 +8,14 @@ import SplashScreen from "./components/auth/SplashScreen";
 import LoginPage from "./components/auth/LoginPage";
 import AdminLayout from "./components/layout/AdminLayout";
 import Dashboard from "./pages/Dashboard";
+import Inventory from "./pages/Inventory";
+import Stores from "./pages/Stores";
+import Users from "./pages/Users";
+import Orders from "./pages/Orders";
+import Subscriptions from "./pages/Subscriptions";
+import Delivery from "./pages/Delivery";
+import Analytics from "./pages/Analytics";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -75,14 +83,14 @@ const App = () => {
             {isAuthenticated && isAdmin && (
               <Route path="/*" element={<AdminLayout onLogout={handleLogout} />}>
                 <Route path="dashboard" element={<Dashboard />} />
-                <Route path="inventory" element={<div className="p-6">Inventory Management (Coming Soon)</div>} />
-                <Route path="stores" element={<div className="p-6">Store Management (Coming Soon)</div>} />
-                <Route path="users" element={<div className="p-6">User Management (Coming Soon)</div>} />
-                <Route path="orders" element={<div className="p-6">Order Management (Coming Soon)</div>} />
-                <Route path="subscriptions" element={<div className="p-6">Subscription Management (Coming Soon)</div>} />
-                <Route path="delivery" element={<div className="p-6">Delivery Management (Coming Soon)</div>} />
-                <Route path="analytics" element={<div className="p-6">Analytics Dashboard (Coming Soon)</div>} />
-                <Route path="settings" element={<div className="p-6">Settings (Coming Soon)</div>} />
+                <Route path="inventory" element={<Inventory />} />
+                <Route path="stores" element={<Stores />} />
+                <Route path="users" element={<Users />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="subscriptions" element={<Subscriptions />} />
+                <Route path="delivery" element={<Delivery />} />
+                <Route path="analytics" element={<Analytics />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
             )}
             

@@ -15,24 +15,24 @@ Design: 3D Glassmorphism + Neumorphism with smooth animations
     --primary-dark: 35 85% 45%;   /* Darker orange for depth */
     
     /* Background System */
-    --background: 222 25% 8%;      /* Deep dark blue-gray */
-    --background-secondary: 225 20% 12%; /* Slightly lighter */
-    --background-tertiary: 228 15% 16%;  /* Even lighter for cards */
-    --foreground: 210 40% 98%;     /* Pure white text */
+    --background: 0 0% 100%;       /* Pure white */
+    --background-secondary: 0 0% 98%; /* Slightly gray */
+    --background-tertiary: 0 0% 96%;  /* Light gray for cards */
+    --foreground: 222 25% 8%;      /* Dark text */
     
     /* Glass & Card Effects */
-    --glass: 225 20% 12% / 0.8;    /* Semi-transparent glass */
-    --glass-border: 210 40% 98% / 0.1; /* Subtle glass borders */
-    --card: 228 15% 16%;           /* Card background */
-    --card-foreground: 210 40% 98%;
+    --glass: 0 0% 98% / 0.8;       /* Light glass */
+    --glass-border: 0 0% 85% / 0.3; /* Subtle gray borders */
+    --card: 0 0% 100%;             /* White card background */
+    --card-foreground: 222 25% 8%; /* Dark text on cards */
     
     /* Interactive Elements */
     --accent: 38 95% 54%;          /* Using primary for accents */
-    --accent-foreground: 222 25% 8%;
-    --secondary: 225 20% 20%;      /* Muted interactive */
-    --secondary-foreground: 210 40% 90%;
-    --muted: 225 15% 25%;
-    --muted-foreground: 210 20% 70%;
+    --accent-foreground: 0 0% 100%;
+    --secondary: 0 0% 95%;         /* Light gray interactive */
+    --secondary-foreground: 222 25% 8%;
+    --muted: 0 0% 91%;             /* Light muted */
+    --muted-foreground: 222 25% 40%;
     
     /* Status Colors */
     --success: 142 76% 36%;        /* Green */
@@ -43,11 +43,11 @@ Design: 3D Glassmorphism + Neumorphism with smooth animations
     --destructive-foreground: 210 40% 98%;
     
     /* UI Elements */
-    --border: 225 15% 25%;
-    --input: 225 20% 20%;
+    --border: 0 0% 85%;            /* Light gray borders */
+    --input: 0 0% 100%;            /* White input background */
     --ring: 38 95% 54%;            /* Primary color for focus rings */
-    --popover: 228 15% 16%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;          /* White popover */
+    --popover-foreground: 222 25% 8%; /* Dark text on popover */
     
     /* 3D Effects & Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
