@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Package, Plus, Search, Filter, Edit, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import AddItemDialog from '@/components/dialogs/AddItemDialog';
 
 const Inventory = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
   const inventoryItems = [
     { id: 1, name: 'Grilled Chicken Salad', category: 'Salads', price: 12.99, stock: 25, status: 'Available' },
     { id: 2, name: 'Quinoa Bowl', category: 'Bowls', price: 14.50, stock: 18, status: 'Available' },
@@ -22,7 +25,10 @@ const Inventory = () => {
     >
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-foreground">Inventory Management</h1>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <Button 
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={() => setShowAddDialog(true)}
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add Item
         </Button>
@@ -85,6 +91,11 @@ const Inventory = () => {
           </motion.div>
         ))}
       </div>
+
+      <AddItemDialog 
+        open={showAddDialog} 
+        onOpenChange={setShowAddDialog} 
+      />
     </motion.div>
   );
 };

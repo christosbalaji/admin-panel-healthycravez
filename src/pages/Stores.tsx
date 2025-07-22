@@ -1,10 +1,13 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Store, Plus, MapPin, Phone, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import AddStoreDialog from '@/components/dialogs/AddStoreDialog';
 
 const Stores = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
   const stores = [
     {
       id: 1,
@@ -44,7 +47,10 @@ const Stores = () => {
     >
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-foreground">Store Management</h1>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <Button 
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={() => setShowAddDialog(true)}
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add Store
         </Button>
@@ -101,6 +107,11 @@ const Stores = () => {
           </motion.div>
         ))}
       </div>
+
+      <AddStoreDialog 
+        open={showAddDialog} 
+        onOpenChange={setShowAddDialog} 
+      />
     </motion.div>
   );
 };

@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
-import { ShoppingBag, Search, Filter, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { ShoppingBag, Search, Filter, Clock, CheckCircle, XCircle, Download } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 const Orders = () => {
+  const { toast } = useToast();
   const orders = [
     {
       id: '#ORD001',
@@ -80,7 +82,42 @@ const Orders = () => {
     >
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-foreground">Order Management</h1>
-        <Button variant="outline" className="border-border">
+        <Button 
+          variant="outline" 
+          className="border-border"
+          onClick={() => {
+            // Generate CSV data
+            const csvContent = [
+              ['Order ID', 'Customer', 'Items', 'Total', 'Status', 'Date', 'Time'],
+              ...orders.map(order => [
+                order.id,
+                order.customer,
+                order.items.toString(),
+                `$${order.total}`,
+                order.status,
+                order.date,
+                order.time
+              ])
+            ].map(row => row.join(',')).join('\n');
+            
+            // Create and download file
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `orders_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            toast({
+              title: "Export Successful",
+              description: "Orders have been exported to CSV file."
+            });
+          }}
+        >
+          <Download className="mr-2 h-4 w-4" />
           Export Orders
         </Button>
       </div>

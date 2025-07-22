@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Plus, Search, Filter, Mail, Shield, MoreVertical } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -5,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import AddUserDialog from '@/components/dialogs/AddUserDialog';
 
 const Users = () => {
+  const [showAddDialog, setShowAddDialog] = useState(false);
   const users = [
     {
       id: 1,
@@ -55,7 +58,10 @@ const Users = () => {
     >
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-foreground">User Management</h1>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <Button 
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={() => setShowAddDialog(true)}
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add User
         </Button>
@@ -123,6 +129,11 @@ const Users = () => {
           </motion.div>
         ))}
       </div>
+
+      <AddUserDialog 
+        open={showAddDialog} 
+        onOpenChange={setShowAddDialog} 
+      />
     </motion.div>
   );
 };

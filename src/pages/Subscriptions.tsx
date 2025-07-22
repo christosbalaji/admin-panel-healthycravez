@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Plus, Search, Filter, RefreshCw, Crown } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import CreatePlanDialog from '@/components/dialogs/CreatePlanDialog';
 
 const Subscriptions = () => {
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
   const subscriptions = [
     {
       id: 1,
@@ -45,7 +48,10 @@ const Subscriptions = () => {
     >
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-foreground">Subscription Management</h1>
-        <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+        <Button 
+          className="bg-primary text-primary-foreground hover:bg-primary/90"
+          onClick={() => setShowCreateDialog(true)}
+        >
           <Plus className="mr-2 h-4 w-4" />
           Create Plan
         </Button>
@@ -114,6 +120,11 @@ const Subscriptions = () => {
           </motion.div>
         ))}
       </div>
+
+      <CreatePlanDialog 
+        open={showCreateDialog} 
+        onOpenChange={setShowCreateDialog} 
+      />
     </motion.div>
   );
 };
