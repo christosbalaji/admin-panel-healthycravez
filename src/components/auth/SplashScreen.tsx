@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import healthyCravezLogo from '@/assets/healthy-cravez-logo.png';
+import healthyCravezLogo from '@/assets/healthy-cravez-logo.png.svg';
 
 interface SplashScreenProps {
   onComplete: () => void;

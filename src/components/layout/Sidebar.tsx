@@ -16,7 +16,7 @@ import {
   LogOut
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import healthyCravezLogo from '@/assets/healthy-cravez-logo.png';
+import healthyCravezLogo from '@/assets/healthy-cravez-logo.png.svg';
 
 interface SidebarProps {
   onLogout: () => void;

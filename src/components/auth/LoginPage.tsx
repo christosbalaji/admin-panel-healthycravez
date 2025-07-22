@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import healthyCravezLogo from '@/assets/healthy-cravez-logo.png';
+import healthyCravezLogo from '@/assets/healthy-cravez-logo.png.svg';
 
 interface LoginPageProps {
   onLogin: (isAdmin: boolean) => void;
