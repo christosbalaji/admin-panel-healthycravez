@@ -36,31 +36,31 @@ const CreatePlanDialog = ({ open, onOpenChange }: CreatePlanDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-white">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-foreground">
-            <Calendar className="h-5 w-5 text-primary" />
+      <DialogContent className="max-w-2xl bg-white border-2 border-border shadow-xl rounded-lg">
+        <DialogHeader className="border-b border-border pb-4">
+          <DialogTitle className="flex items-center gap-2 text-foreground text-xl font-semibold">
+            <Calendar className="h-6 w-6 text-primary" />
             Add Subscription Plan
           </DialogTitle>
           <p className="text-muted-foreground">Create a new subscription plan for your customers</p>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="planName">Plan Name *</Label>
+              <Label htmlFor="planName" className="text-sm font-medium text-foreground">Plan Name *</Label>
               <Input
                 id="planName"
                 value={formData.planName}
                 onChange={(e) => setFormData({ ...formData, planName: e.target.value })}
                 placeholder="e.g., Healthy Options"
-                className="bg-white"
+                className="bg-white border-2 border-border rounded-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
                 required
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="price">Price *</Label>
+              <Label htmlFor="price" className="text-sm font-medium text-foreground">Price *</Label>
               <Input
                 id="price"
                 type="number"
@@ -68,19 +68,19 @@ const CreatePlanDialog = ({ open, onOpenChange }: CreatePlanDialogProps) => {
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                 placeholder="29.99"
-                className="bg-white"
+                className="bg-white border-2 border-border rounded-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
                 required
               />
             </div>
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="billingCycle">Billing Cycle</Label>
+            <Label htmlFor="billingCycle" className="text-sm font-medium text-foreground">Billing Cycle</Label>
             <Select onValueChange={(value) => setFormData({ ...formData, billingCycle: value })}>
-              <SelectTrigger className="bg-white">
+              <SelectTrigger className="bg-white border-2 border-border rounded-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors">
                 <SelectValue placeholder="Select billing cycle" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className="bg-white border-2 border-border shadow-xl rounded-md">
                 <SelectItem value="weekly">Weekly</SelectItem>
                 <SelectItem value="monthly">Monthly</SelectItem>
                 <SelectItem value="quarterly">Quarterly</SelectItem>
@@ -90,35 +90,35 @@ const CreatePlanDialog = ({ open, onOpenChange }: CreatePlanDialogProps) => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="description">Description *</Label>
+            <Label htmlFor="description" className="text-sm font-medium text-foreground">Description *</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Describe what this plan offers..."
-              className="bg-white"
+              className="bg-white border-2 border-border rounded-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
               rows={3}
               required
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="features">Features (one per line)</Label>
+            <Label htmlFor="features" className="text-sm font-medium text-foreground">Features (one per line)</Label>
             <Textarea
               id="features"
               value={formData.features}
               onChange={(e) => setFormData({ ...formData, features: e.target.value })}
               placeholder="e.g.,&#10;3 meals per week&#10;Basic nutrition tracking&#10;Email support"
-              className="bg-white"
+              className="bg-white border-2 border-border rounded-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-colors"
               rows={4}
             />
           </div>
           
-          <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          <div className="flex justify-end gap-3 pt-6 border-t border-border">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-2 border-border">
               Cancel
             </Button>
-            <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-md">
               Create Plan
             </Button>
           </div>
