@@ -49,15 +49,26 @@ const Users = () => {
     }
   ];
 
+  const getUserStatusColor = (status: string) => {
+    switch (status) {
+      case 'Active':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Inactive':
+        return 'bg-red-100 text-red-800 border-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-6 space-y-6"
+      className="p-4 md:p-6 space-y-4 md:space-y-6"
     >
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-foreground">User Management</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground">User Management</h1>
         <Button 
           className="bg-primary text-primary-foreground hover:bg-primary/90"
           onClick={() => setShowAddDialog(true)}
@@ -67,7 +78,7 @@ const Users = () => {
         </Button>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
@@ -91,7 +102,7 @@ const Users = () => {
           >
             <Card className="bg-card border-border animate-3d-hover">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
                     <Avatar className="h-12 w-12">
                       <AvatarFallback className="bg-primary/10 text-primary">
@@ -106,7 +117,7 @@ const Users = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                     <div className="text-right">
                       <div className="flex items-center gap-2 mb-1">
                         <Shield className="h-4 w-4 text-muted-foreground" />
@@ -116,7 +127,7 @@ const Users = () => {
                         Joined: {user.joinDate}
                       </p>
                     </div>
-                    <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>
+                    <Badge className={`${getUserStatusColor(user.status)} border`}>
                       {user.status}
                     </Badge>
                     <Button size="sm" variant="outline">

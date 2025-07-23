@@ -49,7 +49,7 @@ const AddStoreDialog = ({ open, onOpenChange }: AddStoreDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl bg-white border-2 border-border shadow-xl rounded-lg">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white border-2 border-border shadow-xl rounded-lg">
         <DialogHeader className="border-b border-border pb-4">
           <DialogTitle className="flex items-center gap-2 text-foreground text-xl font-semibold">
             <Store className="h-6 w-6 text-primary" />

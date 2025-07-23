@@ -38,15 +38,26 @@ const Stores = () => {
     }
   ];
 
+  const getStoreStatusColor = (status: string) => {
+    switch (status) {
+      case 'Open':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Closed':
+        return 'bg-red-100 text-red-800 border-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-6 space-y-6"
+      className="p-4 md:p-6 space-y-4 md:space-y-6"
     >
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-foreground">Store Management</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Store Management</h1>
         <Button 
           className="bg-primary text-primary-foreground hover:bg-primary/90"
           onClick={() => setShowAddDialog(true)}
@@ -73,7 +84,7 @@ const Stores = () => {
                     </div>
                     <CardTitle className="text-card-foreground">{store.name}</CardTitle>
                   </div>
-                  <Badge variant={store.status === 'Open' ? 'default' : 'secondary'}>
+                  <Badge className={`${getStoreStatusColor(store.status)} border`}>
                     {store.status}
                   </Badge>
                 </div>

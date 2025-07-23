@@ -1,75 +1,84 @@
 import { motion } from 'framer-motion';
-import { ShoppingBag, Search, Filter, Clock, CheckCircle, XCircle, Download } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { ShoppingBag, Search, Filter, Clock, CheckCircle, XCircle, Download, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 
 const Orders = () => {
   const { toast } = useToast();
   const orders = [
     {
-      id: '#ORD001',
-      customer: 'Alice Johnson',
+      id: '#ORD-001',
+      customer: 'John Doe',
+      store: 'Downtown Store',
       items: 3,
-      total: 45.99,
-      status: 'Delivered',
+      amount: 1549,
+      payment: 'Paid',
+      status: 'delivered',
       date: '2024-01-15',
       time: '2:30 PM'
     },
     {
-      id: '#ORD002',
-      customer: 'Bob Smith',
+      id: '#ORD-002',
+      customer: 'Jane Smith',
+      store: 'Uptown Store',
       items: 2,
-      total: 28.50,
-      status: 'In Progress',
+      amount: 1149,
+      payment: 'Paid',
+      status: 'processing',
       date: '2024-01-15',
-      time: '3:15 PM'
+      time: '1:15 PM'
     },
     {
-      id: '#ORD003',
-      customer: 'Carol Davis',
-      items: 1,
-      total: 12.99,
-      status: 'Pending',
-      date: '2024-01-15',
-      time: '3:45 PM'
-    },
-    {
-      id: '#ORD004',
-      customer: 'David Wilson',
+      id: '#ORD-003',
+      customer: 'Mike Johnson',
+      store: 'Mall Store',
       items: 4,
-      total: 67.25,
-      status: 'Cancelled',
+      amount: 1935,
+      payment: 'Paid',
+      status: 'packed',
       date: '2024-01-15',
-      time: '4:20 PM'
+      time: '12:45 PM'
+    },
+    {
+      id: '#ORD-004',
+      customer: 'Sarah Wilson',
+      store: 'Downtown Store',
+      items: 1,
+      amount: 1365,
+      payment: 'Pending',
+      status: 'out for delivery',
+      date: '2024-01-15',
+      time: '11:30 AM'
     }
   ];
 
-  const getStatusIcon = (status: string) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Delivered':
-        return <CheckCircle className="h-4 w-4" />;
-      case 'In Progress':
-        return <Clock className="h-4 w-4" />;
-      case 'Cancelled':
-        return <XCircle className="h-4 w-4" />;
+      case 'delivered':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'processing':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'packed':
+        return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'out for delivery':
+        return 'bg-orange-100 text-orange-800 border-orange-200';
       default:
-        return <Clock className="h-4 w-4" />;
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
-  const getStatusVariant = (status: string) => {
+  const getPaymentStatusColor = (status: string) => {
     switch (status) {
-      case 'Delivered':
-        return 'default';
-      case 'In Progress':
-        return 'secondary';
-      case 'Cancelled':
-        return 'destructive';
+      case 'Paid':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Pending':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       default:
-        return 'outline';
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
@@ -78,10 +87,10 @@ const Orders = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-6 space-y-6"
+      className="p-4 md:p-6 space-y-4 md:space-y-6"
     >
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-foreground">Order Management</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Order Management</h1>
         <Button 
           variant="outline" 
           className="border-border"
@@ -93,7 +102,7 @@ const Orders = () => {
                 order.id,
                 order.customer,
                 order.items.toString(),
-                `$${order.total}`,
+                `₹${order.amount}`,
                 order.status,
                 order.date,
                 order.time
@@ -122,62 +131,84 @@ const Orders = () => {
         </Button>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search orders..."
+            placeholder="Search orders by ID, customer, or store..."
             className="pl-10 bg-background border-border"
           />
         </div>
-        <Button variant="outline" className="border-border">
-          <Filter className="mr-2 h-4 w-4" />
-          Filter
-        </Button>
+        <Select>
+          <SelectTrigger className="w-full sm:w-48">
+            <SelectValue placeholder="All Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="delivered">Delivered</SelectItem>
+            <SelectItem value="processing">Processing</SelectItem>
+            <SelectItem value="packed">Packed</SelectItem>
+            <SelectItem value="out for delivery">Out for Delivery</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <div className="grid gap-4">
-        {orders.map((order) => (
-          <motion.div
-            key={order.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Card className="bg-card border-border animate-3d-hover">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-primary/10 rounded-lg">
-                      <ShoppingBag className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-card-foreground">{order.id}</h3>
-                      <p className="text-muted-foreground">{order.customer}</p>
-                    </div>
+      <div className="bg-white rounded-lg border border-border shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-border">
+          <h2 className="text-lg font-semibold text-foreground">Recent Orders</h2>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-24">Order ID</TableHead>
+              <TableHead>Customer</TableHead>
+              <TableHead>Store</TableHead>
+              <TableHead>Items</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Payment</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Date & Time</TableHead>
+              <TableHead className="w-20">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {orders.map((order) => (
+              <TableRow key={order.id} className="hover:bg-muted/50">
+                <TableCell className="font-medium text-foreground">{order.id}</TableCell>
+                <TableCell className="text-foreground">{order.customer}</TableCell>
+                <TableCell className="text-muted-foreground">{order.store}</TableCell>
+                <TableCell className="text-muted-foreground">
+                  {order.items} items
+                </TableCell>
+                <TableCell className="font-medium text-foreground">₹{order.amount}</TableCell>
+                <TableCell>
+                  <Badge className={`${getPaymentStatusColor(order.payment)} border text-xs`}>
+                    {order.payment}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge className={`${getStatusColor(order.status)} border text-xs`}>
+                    {order.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  <div>
+                    <div className="text-sm">{order.date}</div>
+                    <div className="text-xs text-muted-foreground">{order.time}</div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="text-right">
-                      <p className="font-semibold text-card-foreground">${order.total}</p>
-                      <p className="text-sm text-muted-foreground">{order.items} items</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-card-foreground">{order.date}</p>
-                      <p className="text-xs text-muted-foreground">{order.time}</p>
-                    </div>
-                    <Badge variant={getStatusVariant(order.status)} className="gap-1">
-                      {getStatusIcon(order.status)}
-                      {order.status}
-                    </Badge>
-                    <Button size="sm" variant="outline">
-                      View Details
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
+                </TableCell>
+                <TableCell>
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          </Table>
+        </div>
       </div>
     </motion.div>
   );

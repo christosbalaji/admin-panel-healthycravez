@@ -10,21 +10,34 @@ import AddItemDialog from '@/components/dialogs/AddItemDialog';
 const Inventory = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const inventoryItems = [
-    { id: 1, name: 'Grilled Chicken Salad', category: 'Salads', price: 12.99, stock: 25, status: 'Available' },
-    { id: 2, name: 'Quinoa Bowl', category: 'Bowls', price: 14.50, stock: 18, status: 'Available' },
-    { id: 3, name: 'Green Smoothie', category: 'Beverages', price: 8.99, stock: 0, status: 'Out of Stock' },
-    { id: 4, name: 'Protein Wrap', category: 'Wraps', price: 11.75, stock: 32, status: 'Available' },
+    { id: 1, name: 'Grilled Chicken Salad', category: 'Salads', price: 799, stock: 25, status: 'Available' },
+    { id: 2, name: 'Quinoa Bowl', category: 'Bowls', price: 899, stock: 18, status: 'Available' },
+    { id: 3, name: 'Green Smoothie', category: 'Beverages', price: 549, stock: 0, status: 'Out of Stock' },
+    { id: 4, name: 'Protein Wrap', category: 'Wraps', price: 699, stock: 5, status: 'Low Stock' },
   ];
+
+  const getStockStatusColor = (status: string) => {
+    switch (status) {
+      case 'Available':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Out of Stock':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'Low Stock':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-6 space-y-6"
+      className="p-4 md:p-6 space-y-4 md:space-y-6"
     >
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-foreground">Inventory Management</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Inventory Management</h1>
         <Button 
           className="bg-primary text-primary-foreground hover:bg-primary/90"
           onClick={() => setShowAddDialog(true)}
@@ -34,7 +47,7 @@ const Inventory = () => {
         </Button>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
@@ -58,8 +71,8 @@ const Inventory = () => {
           >
             <Card className="bg-card border-border animate-3d-hover">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                     <div className="p-3 bg-primary/10 rounded-lg">
                       <Package className="h-6 w-6 text-primary" />
                     </div>
@@ -70,10 +83,10 @@ const Inventory = () => {
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="font-semibold text-card-foreground">${item.price}</p>
+                      <p className="font-semibold text-card-foreground">₹{item.price}</p>
                       <p className="text-sm text-muted-foreground">Stock: {item.stock}</p>
                     </div>
-                    <Badge variant={item.status === 'Available' ? 'default' : 'destructive'}>
+                    <Badge className={`${getStockStatusColor(item.status)} border`}>
                       {item.status}
                     </Badge>
                     <div className="flex gap-2">

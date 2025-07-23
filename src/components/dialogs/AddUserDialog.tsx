@@ -35,7 +35,7 @@ const AddUserDialog = ({ open, onOpenChange }: AddUserDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg bg-white border-2 border-border shadow-xl rounded-lg">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto bg-white border-2 border-border shadow-xl rounded-lg">
         <DialogHeader className="border-b border-border pb-4">
           <DialogTitle className="flex items-center gap-2 text-foreground text-xl font-semibold">
             <UserPlus className="h-6 w-6 text-primary" />
