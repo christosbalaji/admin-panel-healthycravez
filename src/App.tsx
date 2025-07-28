@@ -9,6 +9,7 @@ import LoginPage from "./components/auth/LoginPage";
 import AdminLayout from "./components/layout/AdminLayout";
 import Dashboard from "./pages/Dashboard";
 import Inventory from "./pages/Inventory";
+import Meals from "./pages/Meals";
 import Stores from "./pages/Stores";
 import Users from "./pages/Users";
 import Orders from "./pages/Orders";
@@ -84,6 +85,7 @@ const App = () => {
               <Route path="/*" element={<AdminLayout onLogout={handleLogout} />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="inventory" element={<Inventory />} />
+                <Route path="meals" element={<Meals />} />
                 <Route path="stores" element={<Stores />} />
                 <Route path="users" element={<Users />} />
                 <Route path="orders" element={<Orders />} />

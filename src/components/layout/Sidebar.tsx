@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Package, 
+  ChefHat,
   Store, 
   Users, 
   ShoppingCart, 
@@ -25,6 +26,7 @@ interface SidebarProps {
 const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
   { icon: Package, label: 'Inventory', path: '/inventory' },
+  { icon: ChefHat, label: 'Meals', path: '/meals' },
   { icon: Store, label: 'Stores', path: '/stores' },
   { icon: Users, label: 'Users', path: '/users' },
   { icon: ShoppingCart, label: 'Orders', path: '/orders' },
