@@ -10,49 +10,58 @@ import {
   Clock
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/contexts/AuthContext';
+import { mockAnalyticsByStore, mockOrdersByStore } from '@/data/mockData';
 
 const Dashboard = () => {
-  const kpiData = [
+  const { currentStore } = useAuth();
+  
+  // Get store-specific data
+  const storeAnalytics = currentStore ? mockAnalyticsByStore[currentStore.id] : null;
+  const storeOrders = currentStore ? mockOrdersByStore[currentStore.id] || [] : [];
+
+  const kpiData = storeAnalytics ? [
     {
-      title: 'Total Revenue',
-      value: '$45,231.89',
-      change: '+20.1% from last month',
+      title: 'Daily Sales',
+      value: `₹${storeAnalytics.dailySales.toLocaleString()}`,
+      change: '+15.2% from yesterday',
       icon: DollarSign,
       trend: 'up',
       color: 'text-success'
     },
     {
-      title: 'Active Orders',
-      value: '1,234',
-      change: '+12% from last week',
+      title: 'Total Orders',
+      value: storeAnalytics.totalOrders.toString(),
+      change: '+8% from last week',
       icon: ShoppingCart,
       trend: 'up',
       color: 'text-primary'
     },
     {
-      title: 'Total Users',
-      value: '8,945',
-      change: '+5.2% from last month',
-      icon: Users,
+      title: 'Top Selling Meal',
+      value: storeAnalytics.topSellingMeal,
+      change: 'Most popular today',
+      icon: Package,
       trend: 'up',
       color: 'text-warning'
     },
     {
-      title: 'Inventory Items',
-      value: '456',
-      change: '-2.3% from last week',
-      icon: Package,
-      trend: 'down',
-      color: 'text-destructive'
+      title: 'Avg Order Value',
+      value: `₹${storeAnalytics.avgOrderValue}`,
+      change: '+5.2% from last month',
+      icon: Users,
+      trend: 'up',
+      color: 'text-success'
     }
-  ];
+  ] : [];
 
-  const recentOrders = [
-    { id: '#3021', customer: 'Sarah Johnson', amount: '$89.50', status: 'Delivered', time: '2 hours ago' },
-    { id: '#3020', customer: 'Mike Chen', amount: '$156.00', status: 'Processing', time: '4 hours ago' },
-    { id: '#3019', customer: 'Emma Davis', amount: '$67.25', status: 'Shipped', time: '6 hours ago' },
-    { id: '#3018', customer: 'John Smith', amount: '$234.75', status: 'Delivered', time: '8 hours ago' },
-  ];
+  const recentOrders = storeOrders.slice(0, 4).map(order => ({
+    id: order.id,
+    customer: order.customer,
+    amount: `₹${order.amount}`,
+    status: order.status.charAt(0).toUpperCase() + order.status.slice(1),
+    time: `${order.time} ${order.date}`
+  }));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -95,10 +104,10 @@ const Dashboard = () => {
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-8">
         <h1 className="text-3xl font-bold text-gradient mb-2">
-          Welcome back, Admin! 👋
+          Welcome back, {currentStore?.manager}! 👋
         </h1>
         <p className="text-muted-foreground">
-          Here's what's happening with your restaurant today.
+          Here's what's happening at {currentStore?.name} today.
         </p>
       </motion.div>
 

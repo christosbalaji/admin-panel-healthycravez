@@ -6,55 +6,15 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { mockOrdersByStore } from '@/data/mockData';
 
 const Orders = () => {
   const { toast } = useToast();
-  const orders = [
-    {
-      id: '#ORD-001',
-      customer: 'John Doe',
-      store: 'Downtown Store',
-      items: 3,
-      amount: 1549,
-      payment: 'Paid',
-      status: 'delivered',
-      date: '2024-01-15',
-      time: '2:30 PM'
-    },
-    {
-      id: '#ORD-002',
-      customer: 'Jane Smith',
-      store: 'Uptown Store',
-      items: 2,
-      amount: 1149,
-      payment: 'Paid',
-      status: 'processing',
-      date: '2024-01-15',
-      time: '1:15 PM'
-    },
-    {
-      id: '#ORD-003',
-      customer: 'Mike Johnson',
-      store: 'Mall Store',
-      items: 4,
-      amount: 1935,
-      payment: 'Paid',
-      status: 'packed',
-      date: '2024-01-15',
-      time: '12:45 PM'
-    },
-    {
-      id: '#ORD-004',
-      customer: 'Sarah Wilson',
-      store: 'Downtown Store',
-      items: 1,
-      amount: 1365,
-      payment: 'Pending',
-      status: 'out for delivery',
-      date: '2024-01-15',
-      time: '11:30 AM'
-    }
-  ];
+  const { currentStore } = useAuth();
+  
+  // Get store-specific orders
+  const orders = currentStore ? mockOrdersByStore[currentStore.id] || [] : [];
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -101,7 +61,7 @@ const Orders = () => {
               ...orders.map(order => [
                 order.id,
                 order.customer,
-                order.items.toString(),
+                order.items,
                 `₹${order.amount}`,
                 order.status,
                 order.date,
@@ -178,14 +138,14 @@ const Orders = () => {
               <TableRow key={order.id} className="hover:bg-muted/50">
                 <TableCell className="font-medium text-foreground">{order.id}</TableCell>
                 <TableCell className="text-foreground">{order.customer}</TableCell>
-                <TableCell className="text-muted-foreground">{order.store}</TableCell>
+                <TableCell className="text-muted-foreground">{currentStore?.name}</TableCell>
                 <TableCell className="text-muted-foreground">
-                  {order.items} items
+                  {order.items}
                 </TableCell>
                 <TableCell className="font-medium text-foreground">₹{order.amount}</TableCell>
                 <TableCell>
-                  <Badge className={`${getPaymentStatusColor(order.payment)} border text-xs`}>
-                    {order.payment}
+                  <Badge className={`${getPaymentStatusColor(order.paymentStatus)} border text-xs`}>
+                    {order.paymentStatus}
                   </Badge>
                 </TableCell>
                 <TableCell>

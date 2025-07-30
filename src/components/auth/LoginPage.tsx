@@ -6,9 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import healthyCravezLogo from '@/assets/healthy-cravez-logo.png.svg';
+import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
 
 interface LoginPageProps {
-  onLogin: (isAdmin: boolean) => void;
+  onLogin: () => void;
 }
 
 const LoginPage = ({ onLogin }: LoginPageProps) => {
@@ -17,18 +19,25 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { login } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // For demo: admin@healthycravez.com / admin123 = admin access
-    const isAdmin = email === 'admin@healthycravez.com' && password === 'admin123';
+    try {
+      const success = await login(email, password);
+      if (success) {
+        toast.success('Login successful!');
+        onLogin();
+      } else {
+        toast.error('Invalid credentials. Please try again.');
+      }
+    } catch (error) {
+      toast.error('Login failed. Please try again.');
+    }
     
     setIsLoading(false);
-    onLogin(isAdmin);
   };
 
   return (
@@ -172,7 +181,10 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
 
             <div className="text-center">
               <p className="text-xs text-muted-foreground">
-                Demo credentials: admin@healthycravez.com / admin123
+                Demo Store Managers:<br/>
+                john@healthycravez.com / password123<br/>
+                sarah@healthycravez.com / password123<br/>
+                mike@healthycravez.com / password123
               </p>
             </div>
           </CardContent>

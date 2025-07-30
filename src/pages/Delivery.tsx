@@ -7,46 +7,23 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import AddAgentDialog from '@/components/dialogs/AddAgentDialog';
+import { useAuth } from '@/contexts/AuthContext';
+import { mockDeliveryAgentsByStore } from '@/data/mockData';
 
 const Delivery = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const deliveryAgents = [
-    {
-      id: 1,
-      name: 'Mike Johnson',
-      phone: '(555) 123-4567',
-      status: 'Available',
-      currentOrder: null,
-      totalDeliveries: 156,
-      rating: 4.8
-    },
-    {
-      id: 2,
-      name: 'Sarah Davis',
-      phone: '(555) 987-6543',
-      status: 'On Delivery',
-      currentOrder: '#ORD002',
-      totalDeliveries: 203,
-      rating: 4.9
-    },
-    {
-      id: 3,
-      name: 'Tom Wilson',
-      phone: '(555) 456-7890',
-      status: 'Off Duty',
-      currentOrder: null,
-      totalDeliveries: 89,
-      rating: 4.6
-    }
-  ];
+  const { currentStore } = useAuth();
+  
+  // Get store-specific delivery agents
+  const deliveryAgents = currentStore ? mockDeliveryAgentsByStore[currentStore.id] || [] : [];
 
   const getAgentStatusColor = (status: string) => {
     switch (status) {
-      case 'Available':
+      case 'available':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'On Delivery':
+      case 'on delivery':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Off Duty':
+      case 'off duty':
         return 'bg-red-100 text-red-800 border-red-200';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';
@@ -112,20 +89,20 @@ const Delivery = () => {
                   </div>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
                     <div className="text-right">
-                      <p className="font-semibold text-card-foreground">
-                        {agent.totalDeliveries} deliveries
+                       <p className="font-semibold text-card-foreground">
+                        {agent.ordersDelivered} deliveries
                       </p>
                       <p className="text-sm text-muted-foreground">
                         Rating: {agent.rating}/5.0
                       </p>
                     </div>
-                    {agent.currentOrder && (
+                     {agent.status === 'on delivery' && (
                       <div className="text-right">
                         <p className="text-sm font-medium text-card-foreground">
-                          Current Order
+                          On Delivery
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          {agent.currentOrder}
+                          Order in progress
                         </p>
                       </div>
                     )}

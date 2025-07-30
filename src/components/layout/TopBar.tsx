@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
-import { Bell, Search, User, Moon, Sun } from 'lucide-react';
+import { Bell, Search, User, Moon, Sun, Store } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const TopBar = () => {
   const [isDark, setIsDark] = useState(true);
   const [notifications] = useState(3);
+  const { currentManager, currentStore } = useAuth();
 
   return (
     <motion.div
@@ -76,14 +78,27 @@ const TopBar = () => {
           </Button>
         </motion.div>
 
+        {/* Store info */}
+        {currentStore && (
+          <motion.div
+            className="flex items-center space-x-2 px-3 py-2 bg-primary/10 rounded-lg border border-primary/20"
+            whileHover={{ scale: 1.02 }}
+          >
+            <Store className="h-4 w-4 text-primary" />
+            <div className="text-sm">
+              <p className="font-medium text-foreground">{currentStore.name}</p>
+            </div>
+          </motion.div>
+        )}
+
         {/* User profile */}
         <motion.div
           className="flex items-center space-x-3 pl-4 border-l border-white/10"
           whileHover={{ scale: 1.02 }}
         >
           <div className="text-right">
-            <p className="text-sm font-medium">Admin User</p>
-            <p className="text-xs text-muted-foreground">Administrator</p>
+            <p className="text-sm font-medium">{currentManager?.name || 'Store Manager'}</p>
+            <p className="text-xs text-muted-foreground">Store Manager</p>
           </div>
           <motion.div
             whileHover={{ 
@@ -95,7 +110,7 @@ const TopBar = () => {
             <Avatar className="h-10 w-10 ring-2 ring-primary/20">
               <AvatarImage src="/api/placeholder/40/40" />
               <AvatarFallback className="bg-gradient-primary text-white">
-                <User className="h-5 w-5" />
+                {currentManager?.name?.charAt(0) || <User className="h-5 w-5" />}
               </AvatarFallback>
             </Avatar>
           </motion.div>

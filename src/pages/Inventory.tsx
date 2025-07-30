@@ -6,23 +6,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import AddItemDialog from '@/components/dialogs/AddItemDialog';
+import { useAuth } from '@/contexts/AuthContext';
+import { mockInventoryByStore } from '@/data/mockData';
 
 const Inventory = () => {
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const inventoryItems = [
-    { id: 1, name: 'Grilled Chicken Salad', category: 'Salads', price: 799, stock: 25, status: 'Available' },
-    { id: 2, name: 'Quinoa Bowl', category: 'Bowls', price: 899, stock: 18, status: 'Available' },
-    { id: 3, name: 'Green Smoothie', category: 'Beverages', price: 549, stock: 0, status: 'Out of Stock' },
-    { id: 4, name: 'Protein Wrap', category: 'Wraps', price: 699, stock: 5, status: 'Low Stock' },
-  ];
+  const { currentStore } = useAuth();
+  
+  // Get store-specific inventory
+  const inventoryItems = currentStore ? mockInventoryByStore[currentStore.id] || [] : [];
 
   const getStockStatusColor = (status: string) => {
     switch (status) {
-      case 'Available':
+      case 'available':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'Out of Stock':
+      case 'out of stock':
         return 'bg-red-100 text-red-800 border-red-200';
-      case 'Low Stock':
+      case 'low stock':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';
